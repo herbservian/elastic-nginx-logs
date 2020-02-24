@@ -12,6 +12,7 @@ RUN tar -zxf filebeat-7.6.0-linux-x86_64.tar.gz && mv filebeat-7.6.0-linux-x86_6
 RUN rm filebeat-7.6.0-linux-x86_64.tar.gz
 
 COPY filebeat.yml filebeat/filebeat.yml
+RUN chmod go-w filebeat/filebeat.yml
 COPY start.sh start.sh
 
 ENTRYPOINT ["sh", "start.sh"]
