@@ -2,7 +2,14 @@ const faker = require('faker');
 const moment = require('moment');
 const fs = require('fs');
 
+// North Korea IP Address Range
 // 175.45.176.0 – 175.45.179.255
+
+// MITRE ATT&CK
+// Destination Port: 22 (SSH (Secure Shell) from the Internet)
+// Destination Port: 8000 (TCP Port 8000 Activity to the Internet)
+// Destination Port: 9001 or 9030 ()
+
 
 const verbose = process.env.NODE_VERBOSE || false;
 
@@ -11,7 +18,7 @@ const nkIpAddress = () => {
 };
 
 const httpStatusCode = () => {
-  return `${(Math.floor(Math.random() * 500) + 200)}`
+  return `${(Math.floor(Math.random() * 500) + 200)}` // Generates random number between 200 & 500
 };
 
 const stream = () => {
@@ -20,16 +27,24 @@ const stream = () => {
   });
 };
 
-const regularNginxLog = () => {
-  const access = faker.fake(`{{internet.ip}} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
-  verbose && console.log(access);
-  stream().write(`${access}\n`);
-};
+// const regularNginxLog = () => {
+//   const access = faker.fake(`{{internet.ip}} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
+//   verbose && console.log(access);
+//   stream().write(`${access}\n`);
+// };
 
-const attackLog = () => {
-  const access = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
-  verbose && console.log(access);
-  stream().write(`${access}\n`);
+// const attackLog = () => {
+//   const access = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
+//   verbose && console.log(access);
+//   stream().write(`${access}\n`);
+// };
+
+// [18/Nov/2019:10:08:15 -0700] <request IP> - - - <config host> <request host> to: 127.0.0.1:8000: GET /path/requested HTTP/1.1 200 upstream_response_time 0.000 msec 1574096895.474 request_time 0.001
+const mitreSshFromInternet = () => {
+  // const access = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
+  const sshAccess = faker.fake(`[${timestamp()}] ${nkIpAddress()} - - - {{internet.domainName}} {{internet.domainName}} to: 127.0.0.1:8000 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} upstream_response_time  {{random.number}}.000 msec "-" "{{internet.userAgent}}"`);
+  verbose && console.log(sshAccess);
+  stream().write(`${sshAccess}\n`);
 };
 
 
@@ -60,13 +75,15 @@ function tick() {
   attackLastWrite = attackLastWrite + dt;
   
   if (regularLastWrite >= regularLogInterval()) {
-    regularNginxLog();
+    // regularNginxLog();
+    mitreSshFromInternet();
     regularLastWrite = 0;
   }
   
   if (duration >= attackStartTime) {
     if (attackLastWrite >= attackLogInterval()) {
-      attackLog();
+      // attackLog();
+      mitreSshFromInternet();
       attackLastWrite = 0;
     }
   }
