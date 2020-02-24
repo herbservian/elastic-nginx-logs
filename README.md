@@ -42,13 +42,12 @@ Output should look like this:
 To run the docker version of this project, do the following from the source directory:
 
 ```bash
-docker build -t nginxlogs:latest . 
+sudo docker build -t nginxlogs:latest . 
 ```
 
 To run the container:
 ```bash
-docker run --rm -ti -e CLOUD_ID="deploymentid:dXMtZWFzdC0xLmF3cyYyNTc0Mw=" -e CLOUD_AUTH="elastic:YOUR_PASSWORD"
--e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginxlogs
+sudo docker run --rm -ti -e CLOUD_ID="deploymentid:dXMtZWFzdC0xLmF3cyYyNTc0Mw=" -e CLOUD_AUTH="elastic:YOUR_PASSWORD" -e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginxlogs
 ```
 The above command requires a few environment variables:
 * `CLOUD_ID` is the Cloud Id provided by Elastic Cloud. You can find this in the deployment section
