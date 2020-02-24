@@ -10,6 +10,9 @@ const nkIpAddress = () => {
   return `175.45.${(Math.floor(Math.random() * 3) + 176)}.${(Math.floor(Math.random() * 255))}`
 };
 
+const httpStatusCode = () => {
+  return `${(Math.floor(Math.random() * 500) + 200)}`
+};
 
 const stream = () => {
   return fs.createWriteStream('./access.log', {
@@ -24,7 +27,7 @@ const regularNginxLog = () => {
 };
 
 const attackLog = () => {
-  const access = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
+  const access = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
   verbose && console.log(access);
   stream().write(`${access}\n`);
 };
