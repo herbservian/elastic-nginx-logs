@@ -38,8 +38,8 @@ const mitreSshFromInternet = () => {
   // const sshAccess = faker.fake(`${nkIpAddress()} - - [${timestamp()}] http {{internet.domainName}} 172.0.0.80:8080 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
   const sshAccess = faker.fake(
       `192.168.1.4:8000 - {{name.firstName}} [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} ` +
-      `"http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" {{random.number}} {{random.number}} [upstream] [upstream] ${nkIpAddress()} ` +
-      `{{random.number}} {{random.number}} ${httpStatusCode()} {{random.number}}`
+      `"http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" {{random.number}} {{random.number}}.000 [upstream] [upstream] ${nkIpAddress()} ` +
+      `{{random.number}} {{random.number}}.000 ${httpStatusCode()} {{random.number}}`
   );
   
   verbose && console.log(sshAccess);
