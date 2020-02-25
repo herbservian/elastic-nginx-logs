@@ -12,7 +12,7 @@ RUN tar -zxf filebeat-7.6.0-linux-x86_64.tar.gz && mv filebeat-7.6.0-linux-x86_6
 RUN rm filebeat-7.6.0-linux-x86_64.tar.gz
 
 COPY ingress_controller filebeat/module/nginx/ingress_controller
-RUN chmod go-w filebeat/module/nginx/ingress_controller/mainfest.yml
+RUN chmod go-w filebeat/module/nginx/ingress_controller/manifest.yml
 COPY filebeat.yml filebeat/filebeat.yml
 RUN chmod go-w filebeat/filebeat.yml
 COPY start.sh start.sh
