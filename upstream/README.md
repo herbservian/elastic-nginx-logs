@@ -15,12 +15,12 @@ the output file `access.log` will contain a row per log entry.
 To run the docker version of this project, do the following from the source directory:
 
 ```bash
-docker build -t nginx_uptream_logs:latest . 
+sudo docker build -t nginx_uptream_logs:latest . 
 ```
 
 To run the container:
 ```bash
-docker run --rm -ti -e ES_HOST="0.0.0.0:9200" -e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginx_uptream_logs
+sudo docker run --rm -ti -e ES_HOST="0.0.0.0:9200" -e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginx_uptream_logs
 ```
 The above command requires a few environment variables:
 * `ES_HOST` is the fully qualified URL to connect to your Elasticsearch instance, e.g. `http://elasticsearch.mycoolwebsite:9200`
