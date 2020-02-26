@@ -21,6 +21,8 @@ sudo docker build -t nginx_uptream_logs:latest .
 To run the container:
 ```bash
 sudo docker run --rm -ti -e ES_HOST="0.0.0.0:9200" -e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginx_uptream_logs
+
+sudo docker run --rm -ti -e CLOUD_ID="deployment:YXVzdHJhbGlhLXNvdXRoZWFzdDEuZ2NwLmVsYXN0aWMtY2xvdWQuY29tJDcxMWRlNmJkMGU1NTQ4N2RhYzdji" -e CLOUD_AUTH="elastic:<your_password>" -e NODE_VERBOSE=true -e FILEBEAT_VERBOSE=true -e START=1000 -e RANGE=5000 nginx_uptream_logs
 ```
 The above command requires a few environment variables:
 * `ES_HOST` is the fully qualified URL to connect to your Elasticsearch instance, e.g. `http://elasticsearch.mycoolwebsite:9200`
