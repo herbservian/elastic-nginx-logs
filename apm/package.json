@@ -1,0 +1,12 @@
+{
+  "name": "apm-example",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "fs": "^0.0.1-security",
+    "moment": "^2.24.0",
+    "elastic-apm-node": "^3.4.0"
+  }
+}
