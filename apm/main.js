@@ -6,7 +6,7 @@ const fs = require('fs');
 const apm = require('elastic-apm-node').start({
   // Override service name from package.json
   // Allowed characters: a-z, A-Z, 0-9, -, _, and space
-  serviceName: 'nodeampapp',
+  serviceName: 'nodeapmdemoapp',
 
   // Use if APM Server requires a token
   secretToken: 'false',
@@ -26,6 +26,17 @@ const apm = require('elastic-apm-node').start({
 
 const verbose = process.env.NODE_VERBOSE || false;
 
+const generateLoad = () => {
+  let result = 0;
+  let shouldRun = 0;
+  while(shouldRun < 100000) {
+    result += Math.random() * Math.random();
+    shouldRun++;
+  }
+
+  return result;
+}
+
 const nkIpAddress = () => {
   return `175.45.${(Math.floor(Math.random() * 3) + 176)}.${(Math.floor(Math.random() * 255))}`
 };
@@ -40,21 +51,8 @@ const stream = () => {
   });
 };
 
-// @see https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
-
-// [18/Nov/2019:10:08:15 -0700] <request IP> - - - <config host> <request host> to: 127.0.0.1:8000: GET /path/requested HTTP/1.1 200 upstream_response_time 0.000 msec 1574096895.474 request_time 0.001
-// 192.168.1.4 - {{name.firstName}} [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}}
-// "http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" {{random.number}} {{random.number}} [upstream] [upstream] ${nkIpAddress()}
-// {{random.number}} {{random.number}} 200 {{random.number}}
 const mitreSshFromInternet = () => {
   const sshAccess = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
-  // const sshAccess = faker.fake(`[${timestamp()}] ${nkIpAddress()} - - - {{internet.domainName}} {{internet.domainName}} to: 127.0.0.1:8000 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} upstream_response_time  {{random.number}}.000 msec "-" "{{internet.userAgent}}"`);
-  // const sshAccess = faker.fake(`${nkIpAddress()} - - [${timestamp()}] http {{internet.domainName}} 172.0.0.80:8080 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
-  // const sshAccess = faker.fake(
-  //     `192.168.1.4:8000 - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} ` +
-  //     `"http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" ${nkIpAddress()} `
-  // );
-  
   verbose && console.log(sshAccess);
   stream().write(`${sshAccess}\n`);
 };
@@ -93,14 +91,8 @@ function tick() {
     regularLastWrite = 0;
   }
   
-  // if (duration >= attackStartTime) {
-  //   if (attackLastWrite >= attackLogInterval()) {
-  //     // attackLog();
-  //     mitreSshFromInternet();
-  //     attackLastWrite = 0;
-  //   }
-  // }
-  
+  generateLoad();
+
   lastUpdate = now;
   duration = duration + dt;
 }
