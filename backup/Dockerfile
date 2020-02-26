@@ -11,8 +11,6 @@ RUN wget -nc https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.
 RUN tar -zxf filebeat-7.6.0-linux-x86_64.tar.gz && mv filebeat-7.6.0-linux-x86_64 filebeat
 RUN rm filebeat-7.6.0-linux-x86_64.tar.gz
 
-COPY default.json filebeat/module/nginx/access/ingest/default.json
-RUN chmod go-w filebeat/module/nginx/access/ingest/default.json
 COPY filebeat.yml filebeat/filebeat.yml
 RUN chmod go-w filebeat/filebeat.yml
 COPY start.sh start.sh
