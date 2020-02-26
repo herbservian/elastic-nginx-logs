@@ -34,12 +34,13 @@ const stream = () => {
 // "http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" {{random.number}} {{random.number}} [upstream] [upstream] ${nkIpAddress()}
 // {{random.number}} {{random.number}} 200 {{random.number}}
 const mitreSshFromInternet = () => {
+  const sshAccess = faker.fake(`${nkIpAddress()} - - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} {{random.number}} "-" "{{internet.userAgent}}"`);
   // const sshAccess = faker.fake(`[${timestamp()}] ${nkIpAddress()} - - - {{internet.domainName}} {{internet.domainName}} to: 127.0.0.1:8000 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" ${httpStatusCode()} upstream_response_time  {{random.number}}.000 msec "-" "{{internet.userAgent}}"`);
   // const sshAccess = faker.fake(`${nkIpAddress()} - - [${timestamp()}] http {{internet.domainName}} 172.0.0.80:8080 "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} "-" "{{internet.userAgent}}"`);
-  const sshAccess = faker.fake(
-      `192.168.1.4:8000 - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} ` +
-      `"http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" ${nkIpAddress()} `
-  );
+  // const sshAccess = faker.fake(
+  //     `192.168.1.4:8000 - [${timestamp()}] "GET /{{internet.domainWord}}/{{lorem.slug}} HTTP/1.1" 200 {{random.number}} ` +
+  //     `"http://{{internet.domainWord}}/{{internet.domainWord}}" "{{internet.userAgent}}" ${nkIpAddress()} `
+  // );
   
   verbose && console.log(sshAccess);
   stream().write(`${sshAccess}\n`);
